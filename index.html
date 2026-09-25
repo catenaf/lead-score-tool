@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>leadscore</title>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body style="font-family: sans-serif; max-width: 600px; margin: 60px auto; text-align: center;">
+
+  <h1>leadscore</h1>
+  <p>Sube el excel de tu CRM para empezar</p>
+
+  <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+
+  <div id="output" style="margin-top: 30px; text-align: left;"></div>
+
+  <script>
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const rows = XLSX.utils.sheet_to_json(sheet);
+
+        document.getElementById('output').innerHTML =
+          '<p>Filas cargadas: ' + rows.length + '</p>' +
+          '<pre>' + JSON.stringify(rows.slice(0, 3), null, 2) + '</pre>';
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  </script>
+
+</body>
+</html>
