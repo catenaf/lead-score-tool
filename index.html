@@ -6,7 +6,7 @@
   <title>leadscore</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <style>
     :root {
@@ -18,52 +18,34 @@
       --card: #FBD9D2;
     }
     * { box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      margin: 0;
-      padding: 0;
-    }
-    .wrap { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    html, body { margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); padding: 24px; }
+    .page-frame { max-width: 1140px; margin: 0 auto; border: 1px solid #F5C6BF; border-radius: 20px; padding: 2rem 2.5rem; background: var(--bg); }
 
-    nav { display: flex; align-items: center; margin-bottom: 48px; }
+    nav { display: flex; align-items: center; margin-bottom: 56px; }
     .logo { display: flex; align-items: center; gap: 8px; }
-    .logo-mark {
-      width: 26px; height: 26px; border-radius: 50%;
-      background: var(--coral);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; color: #fff; font-weight: 700;
-    }
-    .logo-text { font-weight: 600; font-size: 15px; }
-    nav a {
-      margin-left: 28px; font-size: 11px; text-transform: uppercase;
-      letter-spacing: 0.8px; color: var(--coral); text-decoration: none; font-weight: 500;
-    }
-    nav .spacer { margin-left: auto; }
+    .logo-mark { width: 26px; height: 26px; border-radius: 50%; background: var(--coral); display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
+    .logo-text { font-weight: 700; font-size: 16px; }
+    nav .nav-links { margin-left: auto; display: flex; align-items: center; gap: 28px; }
+    nav .nav-links a { font-size: 13px; color: var(--ink); text-decoration: none; }
+    nav .btn-nav { background: var(--coral); color: #fff; font-size: 13px; font-weight: 600; padding: 9px 20px; border-radius: 24px; text-decoration: none; }
 
-    .hero { max-width: 480px; margin-bottom: 32px; }
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-weight: 500;
-      font-size: 36px;
-      line-height: 1.2;
-      margin: 0 0 16px;
-    }
-    .hero p { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0 0 26px; }
-
-    .btn {
-      display: inline-block; border: none; cursor: pointer;
-      font-size: 13px; font-weight: 500; padding: 11px 22px; border-radius: 8px;
-      text-decoration: none;
-    }
+    /* hero */
+    .hero-row { display: flex; gap: 48px; align-items: center; margin-bottom: 56px; flex-wrap: wrap; }
+    .hero { flex: 1 1 380px; max-width: 460px; }
+    .eyebrow { font-size: 12px; font-weight: 700; color: var(--coral); margin: 0 0 12px; }
+    h1 { font-size: 34px; font-weight: 800; line-height: 1.2; margin: 0 0 14px; color: var(--ink); }
+    .hero p { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0 0 24px; max-width: 380px; }
+    .btn { display: inline-block; border: none; cursor: pointer; font-size: 13px; font-weight: 600; padding: 11px 22px; border-radius: 24px; text-decoration: none; }
     .btn-primary { background: var(--coral); color: #fff; }
     .btn-primary:hover { background: var(--coral-dark); }
     .btn-ghost { background: transparent; color: var(--ink); padding: 11px 6px; }
 
-    /* animated lead score card */
-    #rotator { background: var(--coral); border-radius: 16px; padding: 1.5rem; margin-bottom: 40px; }
+    .hero-visual { flex: 1 1 380px; max-width: 440px; }
+    .float-frame { background: #fff; border-radius: 20px; padding: 8px; box-shadow: 0 16px 34px rgba(92,30,43,0.14); }
+
+    /* animated card (shared look for hero + used once, no duplicate) */
+    #rotator { background: var(--coral); border-radius: 14px; padding: 1.25rem; }
     #card-content { transition: opacity 0.35s ease; }
     #dots { display: flex; gap: 6px; justify-content: center; margin-top: 14px; }
     .rotator-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
@@ -77,91 +59,132 @@
     .chip { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
     .chip-delta { font-weight: 700; }
 
-    .criteria { margin-bottom: 40px; padding-top: 24px; border-top: 0.5px solid #F0C7C1; }
-    .criteria-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; }
-    .criteria-item span.ast { color: var(--coral); font-size: 14px; }
+    /* numbered feature blocks */
+    .block { display: flex; gap: 32px; align-items: center; border-radius: 16px; padding: 32px; margin-bottom: 16px; flex-wrap: wrap; }
+    .block-light { background: var(--card); }
+    .block-coral { background: var(--coral); }
+    .block-text { flex: 1 1 260px; }
+    .block-visual { flex: 1 1 380px; }
+    .badge-num { display: inline-block; font-size: 11px; font-weight: 700; border-radius: 6px; padding: 3px 9px; margin-bottom: 14px; }
+    .block-light .badge-num { background: var(--ink); color: #fff; }
+    .block-coral .badge-num { background: #fff; color: var(--coral); }
+    .block-title { font-size: 19px; font-weight: 700; margin: 0 0 10px; }
+    .block-light .block-title { color: var(--ink); }
+    .block-coral .block-title { color: #fff; }
+    .block-desc { font-size: 13px; line-height: 1.6; margin: 0; max-width: 260px; }
+    .block-light .block-desc { color: var(--muted); }
+    .block-coral .block-desc { color: #FCE0E6; }
 
-    .upload-zone {
-      border: 1.5px dashed #F2A3A9; border-radius: 12px;
-      padding: 40px 24px; text-align: center; background: var(--card);
-      cursor: pointer;
-    }
+    /* upload zone inside block 01 */
+    .upload-zone { border: 1.5px dashed #F2A3A9; border-radius: 12px; background: #fff; padding: 44px 20px; text-align: center; cursor: pointer; }
     .upload-zone:hover { border-color: var(--coral); }
     .upload-zone p { margin: 6px 0; }
-    .upload-zone .title { font-weight: 500; font-size: 14px; }
+    .upload-zone .title { font-weight: 500; font-size: 14px; color: var(--ink); }
     .upload-zone .sub { font-size: 12px; color: var(--muted); }
     input[type="file"] { display: none; }
+    #output { margin-top: 14px; }
+    #output pre { background: #fff; border-radius: 8px; padding: 14px; font-size: 12px; overflow-x: auto; }
 
-    #output { margin-top: 24px; }
-    #output pre {
-      background: var(--card); border-radius: 8px; padding: 16px;
-      font-size: 12px; overflow-x: auto;
+    /* export mockup inside block 02 */
+    .export-card { background: #fff; border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; gap: 14px; }
+    .export-icon { width: 38px; height: 38px; border-radius: 8px; background: var(--card); display: flex; align-items: center; justify-content: center; font-size: 15px; color: var(--coral-dark); font-weight: 700; flex-shrink: 0; }
+    .export-name { font-size: 13px; font-weight: 600; color: var(--ink); margin: 0 0 3px; }
+    .export-sub { font-size: 11px; color: var(--muted); margin: 0; }
+    .export-btn { margin-left: auto; background: var(--coral); color: #fff; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 20px; border: none; flex-shrink: 0; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 900px) {
+      .page-frame { padding: 1.5rem; }
+      .hero-row { gap: 28px; margin-bottom: 40px; }
+      .hero { max-width: 100%; }
+      .hero-visual { max-width: 100%; }
+      .block { padding: 24px; }
     }
-
-    /* ---- Responsive: tablet and below ---- */
     @media (max-width: 640px) {
-      .wrap { padding: 28px 18px 60px; }
+      body { padding: 12px; }
       nav { margin-bottom: 36px; }
-      nav a { margin-left: 18px; font-size: 10px; }
-      h1 { font-size: 28px; }
-      .hero p { font-size: 13px; }
+      nav .nav-links { gap: 16px; }
+      h1 { font-size: 26px; }
       .btn { padding: 10px 18px; font-size: 12px; }
-      #rotator { padding: 1.1rem; }
-      .upload-zone { padding: 32px 18px; }
+      .upload-zone { padding: 28px 16px; }
+      .export-card { flex-wrap: wrap; }
+      .export-btn { margin-left: 0; width: 100%; text-align: center; }
     }
-
-    /* ---- Responsive: small phones ---- */
     @media (max-width: 380px) {
       nav { flex-wrap: wrap; row-gap: 10px; }
-      nav .spacer { margin-left: 0; }
-      h1 { font-size: 24px; }
-      .btn { display: block; width: 100%; margin: 0 0 10px; text-align: center; }
-      .btn-ghost { padding: 10px 18px; }
+      nav .nav-links { margin-left: 0; width: 100%; justify-content: space-between; }
+      h1 { font-size: 22px; }
       .rotator-row { grid-template-columns: 46px 1fr; row-gap: 4px; }
       .rotator-chips { grid-column: 1 / -1; justify-content: flex-end; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="page-frame">
 
     <nav>
       <div class="logo">
         <div class="logo-mark">L</div>
         <div class="logo-text">leadscore</div>
       </div>
-      <div class="spacer">
+      <div class="nav-links">
+        <a href="https://github.com/catenaf/lead-score-tool" target="_blank">Docs</a>
         <a href="https://github.com/catenaf/lead-score-tool" target="_blank">Github</a>
+        <a href="#upload" class="btn-nav">Get started</a>
       </div>
     </nav>
 
-    <div class="hero">
-      <h1>Scoring leads, shaping decisions.</h1>
-      <p>Upload your CRM excel file and let the system score each lead by email, message, phone, role and company.</p>
-      <a href="#upload" class="btn btn-primary">Get started</a>
-      <a href="https://github.com/catenaf/lead-score-tool" target="_blank" class="btn btn-ghost">View the code ↗</a>
+    <div class="hero-row">
+      <div class="hero">
+        <p class="eyebrow">Powered by your CRM</p>
+        <h1>The all-in-one scoring tool for your leads</h1>
+        <p>Every tool you need to prioritize outreach and cut through the noise.</p>
+        <a href="#upload" class="btn btn-primary">Get started</a>
+        <a href="https://github.com/catenaf/lead-score-tool" target="_blank" class="btn btn-ghost">View the code ↗</a>
+      </div>
+      <div class="hero-visual">
+        <div class="float-frame">
+          <div id="rotator">
+            <div id="card-content"></div>
+            <div id="dots"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div id="rotator">
-      <div id="card-content"></div>
-      <div id="dots"></div>
+    <div class="block block-light">
+      <div class="block-text">
+        <span class="badge-num">01</span>
+        <p class="block-title">Upload &amp; validate</p>
+        <p class="block-desc">Drop your CRM excel and we check the columns match, right in your browser. Nothing gets uploaded anywhere.</p>
+      </div>
+      <div class="block-visual">
+        <div id="upload" class="upload-zone" onclick="document.getElementById('fileInput').click()">
+          <p class="title">Drag your excel file here</p>
+          <p class="sub">or click to select a file</p>
+          <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+        </div>
+        <div id="output"></div>
+      </div>
     </div>
 
-    <div class="criteria">
-      <div class="criteria-item"><span class="ast">✳</span> Professional email domain</div>
-      <div class="criteria-item"><span class="ast">✳</span> Message length above average</div>
-      <div class="criteria-item"><span class="ast">✳</span> Real phone number, not generic</div>
-      <div class="criteria-item"><span class="ast">✳</span> Manager-level role or above</div>
-      <div class="criteria-item"><span class="ast">✳</span> Company listed on a major stock index</div>
+    <div class="block block-coral">
+      <div class="block-text">
+        <span class="badge-num">02</span>
+        <p class="block-title">Score every lead automatically</p>
+        <p class="block-desc">Each lead is scored 0-5 based on five signals, ready to export.</p>
+      </div>
+      <div class="block-visual">
+        <div class="export-card">
+          <div class="export-icon">XLS</div>
+          <div>
+            <p class="export-name">scored-leads.xlsx</p>
+            <p class="export-sub">248 rows · score column added</p>
+          </div>
+          <button class="export-btn">Download</button>
+        </div>
+      </div>
     </div>
-
-    <div id="upload" class="upload-zone" onclick="document.getElementById('fileInput').click()">
-      <p class="title">Drag your excel file here</p>
-      <p class="sub">or click to select a file</p>
-      <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
-    </div>
-
-    <div id="output"></div>
 
   </div>
 
@@ -186,7 +209,7 @@
       reader.readAsArrayBuffer(file);
     });
 
-    // ---- Animated example lead card ----
+    // ---- Animated example lead card (hero) ----
     const leads = [
       {
         name: "Sofia Marchetti", country: "United States", score: "5/5", badgeBg: "#fff", badgeColor: "#C94A65",
