@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -62,32 +62,20 @@
     .btn-primary:hover { background: var(--coral-dark); }
     .btn-ghost { background: transparent; color: var(--ink); padding: 11px 6px; }
 
-    /* example preview block */
-    .preview {
-      background: var(--coral); border-radius: 12px; padding: 20px;
-      display: flex; flex-direction: column; gap: 10px; margin-bottom: 40px;
-    }
-    .lead-card { border-radius: 10px; padding: 14px; }
-    .lead-card.top { background: rgba(255,255,255,0.18); }
-    .lead-card.mid { background: rgba(255,255,255,0.09); }
-    .lead-card.low { background: rgba(255,255,255,0.09); }
-    .lead-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 10px; }
-    .lead-email { font-size: 13px; font-weight: 600; margin: 0; color: #fff; word-break: break-all; }
-    .lead-score { text-align: center; flex-shrink: 0; }
-    .lead-score .badge {
-      font-size: 12px; font-weight: 700; border-radius: 20px; padding: 3px 11px; white-space: nowrap;
-    }
-    .lead-card.top .badge { background: #fff; color: var(--coral); }
-    .lead-card.mid .badge { background: rgba(255,255,255,0.35); color: #fff; }
-    .lead-card.low .badge { background: rgba(255,255,255,0.2); color: #FFECEF; }
-    .lead-score .label {
-      font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px;
-      color: #fff; margin: 3px 0 0; opacity: 0.8;
-    }
-    .lead-details {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px;
-      font-size: 11px; color: #FCE0E6;
-    }
+    /* animated lead score card */
+    #rotator { background: var(--coral); border-radius: 16px; padding: 1.5rem; margin-bottom: 40px; }
+    #card-content { transition: opacity 0.35s ease; }
+    #dots { display: flex; gap: 6px; justify-content: center; margin-top: 14px; }
+    .rotator-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .rotator-name { font-size: 14px; font-weight: 700; margin: 0; color: #fff; }
+    .rotator-country { font-size: 11px; margin: 2px 0 0; color: #FCE0E6; }
+    .rotator-score-label { font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px; color: #fff; margin: 3px 0 0; opacity: 0.8; }
+    .rotator-row { display: grid; grid-template-columns: 58px 1fr auto; align-items: center; gap: 8px; margin-bottom: 9px; }
+    .rotator-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.4px; color: rgba(255,255,255,0.6); font-weight: 600; }
+    .rotator-value { font-size: 12px; color: #fff; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .rotator-chips { display: flex; gap: 4px; flex-shrink: 0; }
+    .chip { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 12px; white-space: nowrap; }
+    .chip-delta { font-weight: 700; }
 
     .criteria { margin-bottom: 40px; padding-top: 24px; border-top: 0.5px solid #F0C7C1; }
     .criteria-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; }
@@ -118,8 +106,7 @@
       h1 { font-size: 28px; }
       .hero p { font-size: 13px; }
       .btn { padding: 10px 18px; font-size: 12px; }
-      .preview { padding: 16px; }
-      .lead-email { font-size: 12px; }
+      #rotator { padding: 1.1rem; }
       .upload-zone { padding: 32px 18px; }
     }
 
@@ -127,10 +114,11 @@
     @media (max-width: 380px) {
       nav { flex-wrap: wrap; row-gap: 10px; }
       nav .spacer { margin-left: 0; }
-      .lead-details { grid-template-columns: 1fr; }
       h1 { font-size: 24px; }
       .btn { display: block; width: 100%; margin: 0 0 10px; text-align: center; }
       .btn-ghost { padding: 10px 18px; }
+      .rotator-row { grid-template-columns: 46px 1fr; row-gap: 4px; }
+      .rotator-chips { grid-column: 1 / -1; justify-content: flex-end; }
     }
   </style>
 </head>
@@ -154,37 +142,9 @@
       <a href="https://github.com/catenaf/lead-score-tool" target="_blank" class="btn btn-ghost">View the code ↗</a>
     </div>
 
-    <div class="preview">
-      <div class="lead-card top">
-        <div class="lead-row">
-          <p class="lead-email">sofia.marchetti@novarobotics.com</p>
-          <div class="lead-score"><div class="badge">4/4</div><p class="label">score</p></div>
-        </div>
-        <div class="lead-details">
-          <span>Message: long</span><span>Phone: real</span>
-          <span>Role: co-founder</span><span>Company: Nova Robotics</span>
-        </div>
-      </div>
-      <div class="lead-card mid">
-        <div class="lead-row">
-          <p class="lead-email">laura.perez@innovatech.es</p>
-          <div class="lead-score"><div class="badge">2/4</div><p class="label">score</p></div>
-        </div>
-        <div class="lead-details">
-          <span>Message: short</span><span>Phone: real</span>
-          <span>Role: specialist</span><span>Company: Innovatech</span>
-        </div>
-      </div>
-      <div class="lead-card low">
-        <div class="lead-row">
-          <p class="lead-email">xXdarkwolf99Xx@hotmail.com</p>
-          <div class="lead-score"><div class="badge">0/4</div><p class="label">score</p></div>
-        </div>
-        <div class="lead-details">
-          <span>Message: short</span><span>Phone: fake</span>
-          <span>Role: none</span><span>Company: none</span>
-        </div>
-      </div>
+    <div id="rotator">
+      <div id="card-content"></div>
+      <div id="dots"></div>
     </div>
 
     <div class="criteria">
@@ -206,6 +166,7 @@
   </div>
 
   <script>
+    // ---- File upload preview ----
     document.getElementById('fileInput').addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -224,6 +185,100 @@
       };
       reader.readAsArrayBuffer(file);
     });
+
+    // ---- Animated example lead card ----
+    const leads = [
+      {
+        name: "Sofia Marchetti", country: "United States", score: "5/5", badgeBg: "#fff", badgeColor: "#C94A65",
+        rows: [
+          { label: "Message", value: "Hi, I am Sofia, saw your...", chip: "Clarity of needs", positive: true },
+          { label: "Role", value: "co-founder", chip: "Authority", positive: true },
+          { label: "Company", value: "Nova Robotics", chip: "Relevancy", positive: true },
+          { label: "Phone", value: "+1 3126151155", chip: "Seems legit", positive: true },
+          { label: "Email", value: "sofia.marchetti@novarobotics.com", chip: "Identity", positive: true }
+        ]
+      },
+      {
+        name: "Laura Pérez", country: "Spain", score: "3/5", badgeBg: "rgba(255,255,255,0.35)", badgeColor: "#fff",
+        rows: [
+          { label: "Message", value: "I would like to schedule a...", chip: "Clarity of needs", positive: true },
+          { label: "Role", value: "specialist", chip: "Authority", positive: false },
+          { label: "Company", value: "Innovatech", chip: "Relevancy", positive: false },
+          { label: "Phone", value: "+34 634418442", chip: "Seems legit", positive: true },
+          { label: "Email", value: "laura.perez@innovatech.es", chip: "Identity", positive: true }
+        ]
+      },
+      {
+        name: "First Name Last Name", country: "The Netherlands", score: "0/5", badgeBg: "rgba(255,255,255,0.18)", badgeColor: "#FFECEF",
+        rows: [
+          { label: "Message", value: "Need more tokens.", chip: "Clarity of needs", positive: false },
+          { label: "Role", value: "none", chip: "Authority", positive: false },
+          { label: "Company", value: "none", chip: "Relevancy", positive: false },
+          { label: "Phone", value: "+31 000111000", chip: "Seems legit", positive: false },
+          { label: "Email", value: "xXdarkwolf99Xx@hotmail.com", chip: "Identity", positive: false }
+        ]
+      }
+    ];
+
+    function labelChip(label, positive) {
+      const bg = positive ? "#fff" : "rgba(255,255,255,0.18)";
+      const color = positive ? "#C94A65" : "rgba(255,255,255,0.85)";
+      const mark = positive ? "\u2713" : "~";
+      return '<span class="chip" style="background:' + bg + ';color:' + color + '">' + label + ' ' + mark + '</span>';
+    }
+    function deltaChip(positive) {
+      const bg = positive ? "#E8871E" : "#7B4B94";
+      const color = positive ? "#4A2409" : "#fff";
+      return '<span class="chip chip-delta" style="background:' + bg + ';color:' + color + '">' + (positive ? "+1" : "\u2212") + '</span>';
+    }
+
+    function renderLead(lead) {
+      let rowsHtml = lead.rows.map(function(r) {
+        return '<div class="rotator-row">' +
+          '<span class="rotator-label">' + r.label + '</span>' +
+          '<span class="rotator-value">' + r.value + '</span>' +
+          '<div class="rotator-chips">' + labelChip(r.chip, r.positive) + deltaChip(r.positive) + '</div>' +
+        '</div>';
+      }).join('');
+
+      return '<div class="rotator-header">' +
+          '<div><p class="rotator-name">' + lead.name + '</p>' +
+          '<p class="rotator-country">' + lead.country + '</p></div>' +
+          '<div style="text-align:center;flex-shrink:0;margin-left:10px">' +
+            '<div style="background:' + lead.badgeBg + ';color:' + lead.badgeColor + ';font-size:13px;font-weight:700;border-radius:20px;padding:4px 12px">' + lead.score + '</div>' +
+            '<p class="rotator-score-label">score</p>' +
+          '</div></div>' +
+        rowsHtml;
+    }
+
+    const content = document.getElementById('card-content');
+    const dotsEl = document.getElementById('dots');
+    let idx = 0;
+
+    function renderDots() {
+      dotsEl.innerHTML = leads.map(function(_, i) {
+        const active = i === idx;
+        return '<div style="width:6px;height:6px;border-radius:50%;background:' + (active ? '#fff' : 'rgba(255,255,255,0.35)') + '"></div>';
+      }).join('');
+    }
+
+    function show(i) {
+      content.style.opacity = '0';
+      setTimeout(function() {
+        idx = i;
+        content.innerHTML = renderLead(leads[idx]);
+        renderDots();
+        content.style.opacity = '1';
+      }, 350);
+    }
+
+    content.innerHTML = renderLead(leads[0]);
+    renderDots();
+    content.style.opacity = '1';
+
+    setInterval(function() {
+      show((idx + 1) % leads.length);
+    }, 4000);
   </script>
 
 </body>
