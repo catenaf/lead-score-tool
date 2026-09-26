@@ -1,18 +1,186 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>leadscore</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --bg: #FCE7E2;
+      --coral: #F2637A;
+      --coral-dark: #C94A65;
+      --ink: #5C1E2B;
+      --muted: #A5636F;
+      --card: #FBD9D2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      margin: 0;
+      padding: 0;
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 32px 24px 80px; }
+
+    nav { display: flex; align-items: center; margin-bottom: 44px; }
+    .logo { display: flex; align-items: center; gap: 8px; }
+    .logo-mark {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--coral);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: #fff; font-weight: 700;
+    }
+    .logo-text { font-weight: 600; font-size: 15px; }
+    nav a {
+      margin-left: 28px; font-size: 11px; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--coral); text-decoration: none; font-weight: 500;
+    }
+    nav .spacer { margin-left: auto; }
+
+    .hero { max-width: 480px; margin-bottom: 32px; }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 36px;
+      line-height: 1.2;
+      margin: 0 0 16px;
+    }
+    .hero p { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0 0 26px; }
+
+    .btn {
+      display: inline-block; border: none; cursor: pointer;
+      font-size: 13px; font-weight: 500; padding: 11px 22px; border-radius: 8px;
+      text-decoration: none;
+    }
+    .btn-primary { background: var(--coral); color: #fff; }
+    .btn-primary:hover { background: var(--coral-dark); }
+    .btn-ghost { background: transparent; color: var(--ink); padding: 11px 6px; }
+
+    /* example preview block */
+    .preview {
+      background: var(--coral); border-radius: 12px; padding: 20px;
+      display: flex; flex-direction: column; gap: 10px; margin-bottom: 40px;
+    }
+    .lead-card { border-radius: 10px; padding: 14px; }
+    .lead-card.top { background: rgba(255,255,255,0.18); }
+    .lead-card.mid { background: rgba(255,255,255,0.09); }
+    .lead-card.low { background: rgba(255,255,255,0.09); }
+    .lead-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+    .lead-email { font-size: 13px; font-weight: 600; margin: 0; color: #fff; word-break: break-all; }
+    .lead-score { text-align: center; flex-shrink: 0; margin-left: 10px; }
+    .lead-score .badge {
+      font-size: 12px; font-weight: 700; border-radius: 20px; padding: 3px 11px;
+    }
+    .lead-card.top .badge { background: #fff; color: var(--coral); }
+    .lead-card.mid .badge { background: rgba(255,255,255,0.35); color: #fff; }
+    .lead-card.low .badge { background: rgba(255,255,255,0.2); color: #FFECEF; }
+    .lead-score .label {
+      font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px;
+      color: #fff; margin: 3px 0 0; opacity: 0.8;
+    }
+    .lead-details {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px;
+      font-size: 11px; color: #FCE0E6;
+    }
+
+    .criteria { margin-bottom: 40px; padding-top: 24px; border-top: 0.5px solid #F0C7C1; }
+    .criteria-item { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; }
+    .criteria-item span.ast { color: var(--coral); font-size: 14px; }
+
+    .upload-zone {
+      border: 1.5px dashed #F2A3A9; border-radius: 12px;
+      padding: 40px 24px; text-align: center; background: var(--card);
+      cursor: pointer;
+    }
+    .upload-zone:hover { border-color: var(--coral); }
+    .upload-zone p { margin: 6px 0; }
+    .upload-zone .title { font-weight: 500; font-size: 14px; }
+    .upload-zone .sub { font-size: 12px; color: var(--muted); }
+    input[type="file"] { display: none; }
+
+    #output { margin-top: 24px; }
+    #output pre {
+      background: var(--card); border-radius: 8px; padding: 16px;
+      font-size: 12px; overflow-x: auto;
+    }
+  </style>
 </head>
-<body style="font-family: sans-serif; max-width: 600px; margin: 60px auto; text-align: center;">
+<body>
+  <div class="wrap">
 
-  <h1>leadscore</h1>
-  <p>Sube el excel de tu CRM para empezar</p>
+    <nav>
+      <div class="logo">
+        <div class="logo-mark">L</div>
+        <div class="logo-text">leadscore</div>
+      </div>
+      <div class="spacer">
+        <a href="https://github.com/catenaf/lead-score-tool" target="_blank">Github</a>
+      </div>
+    </nav>
 
-  <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+    <div class="hero">
+      <h1>Scoring leads, shaping decisions.</h1>
+      <p>Upload your CRM excel file and let the system score each lead by email, message, phone, role and company.</p>
+      <a href="#upload" class="btn btn-primary">Get started</a>
+      <a href="https://github.com/catenaf/lead-score-tool" target="_blank" class="btn btn-ghost">View the code ↗</a>
+    </div>
 
-  <div id="output" style="margin-top: 30px; text-align: left;"></div>
+    <div class="preview">
+      <div class="lead-card top">
+        <div class="lead-row">
+          <p class="lead-email">sofia.marchetti@novarobotics.com</p>
+          <div class="lead-score"><div class="badge">4/4</div><p class="label">score</p></div>
+        </div>
+        <div class="lead-details">
+          <span>Message: long</span><span>Phone: real</span>
+          <span>Role: co-founder</span><span>Company: Nova Robotics</span>
+        </div>
+      </div>
+      <div class="lead-card mid">
+        <div class="lead-row">
+          <p class="lead-email">laura.perez@innovatech.es</p>
+          <div class="lead-score"><div class="badge">2/4</div><p class="label">score</p></div>
+        </div>
+        <div class="lead-details">
+          <span>Message: short</span><span>Phone: real</span>
+          <span>Role: specialist</span><span>Company: Innovatech</span>
+        </div>
+      </div>
+      <div class="lead-card low">
+        <div class="lead-row">
+          <p class="lead-email">xXdarkwolf99Xx@hotmail.com</p>
+          <div class="lead-score"><div class="badge">0/4</div><p class="label">score</p></div>
+        </div>
+        <div class="lead-details">
+          <span>Message: short</span><span>Phone: fake</span>
+          <span>Role: none</span><span>Company: none</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="criteria">
+      <div class="criteria-item"><span class="ast">✳</span> Professional email domain</div>
+      <div class="criteria-item"><span class="ast">✳</span> Message length above average</div>
+      <div class="criteria-item"><span class="ast">✳</span> Real phone number, not generic</div>
+      <div class="criteria-item"><span class="ast">✳</span> Manager-level role or above</div>
+      <div class="criteria-item"><span class="ast">✳</span> Company listed on a major stock index</div>
+    </div>
+
+    <div id="upload" class="upload-zone" onclick="document.getElementById('fileInput').click()">
+      <p class="title">Drag your excel file here</p>
+      <p class="sub">or click to select a file</p>
+      <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+    </div>
+
+    <div id="output"></div>
+
+  </div>
 
   <script>
     document.getElementById('fileInput').addEventListener('change', function(e) {
@@ -28,7 +196,7 @@
         const rows = XLSX.utils.sheet_to_json(sheet);
 
         document.getElementById('output').innerHTML =
-          '<p>Filas cargadas: ' + rows.length + '</p>' +
+          '<p>Rows loaded: ' + rows.length + '</p>' +
           '<pre>' + JSON.stringify(rows.slice(0, 3), null, 2) + '</pre>';
       };
       reader.readAsArrayBuffer(file);
