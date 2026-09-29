@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>leadscore</title>
+  <title>Kriva — Lead Scoring for the People</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,15 +16,19 @@
       --ink: #5C1E2B;
       --muted: #A5636F;
       --card: #FBD9D2;
+      --footer-bg: #3D1428;
+      --footer-text: #D9B8C4;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
     body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); padding: 24px; }
-    .page-frame { max-width: 1140px; margin: 0 auto; border: 1px solid #F5C6BF; border-radius: 20px; padding: 2rem 2.5rem; background: var(--bg); }
+    .page-frame { max-width: 1140px; margin: 0 auto; border: 1px solid #F5C6BF; border-radius: 20px; overflow: hidden; background: var(--bg); }
+    .content { padding: 2rem 2.5rem; }
 
     nav { display: flex; align-items: center; margin-bottom: 56px; }
-    .logo { display: flex; align-items: center; gap: 8px; }
-    .logo-mark { width: 26px; height: 26px; border-radius: 50%; background: var(--coral); display: flex; align-items: center; justify-content: center; font-size: 11px; color: #fff; font-weight: 700; }
+    .logo { display: flex; align-items: center; gap: 9px; }
+    .logo-mark { width: 26px; height: 26px; border-radius: 50%; background: var(--coral); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .logo-mark img { width: 15px; height: 15px; filter: brightness(0) invert(1); }
     .logo-text { font-weight: 700; font-size: 16px; }
     nav .nav-links { margin-left: auto; display: flex; align-items: center; gap: 28px; }
     nav .nav-links a { font-size: 13px; color: var(--ink); text-decoration: none; }
@@ -44,7 +48,7 @@
     .hero-visual { flex: 1 1 380px; max-width: 440px; }
     .float-frame { background: #fff; border-radius: 20px; padding: 8px; box-shadow: 0 16px 34px rgba(92,30,43,0.14); }
 
-    /* animated card (shared look for hero + used once, no duplicate) */
+    /* animated card */
     #rotator { background: var(--coral); border-radius: 14px; padding: 1.25rem; }
     #card-content { transition: opacity 0.35s ease; }
     #dots { display: flex; gap: 6px; justify-content: center; margin-top: 14px; }
@@ -63,8 +67,8 @@
     .block { display: flex; gap: 32px; align-items: center; border-radius: 16px; padding: 32px; margin-bottom: 16px; flex-wrap: wrap; }
     .block-light { background: var(--card); }
     .block-coral { background: var(--coral); }
-    .block-text { flex: 1 1 260px; }
-    .block-visual { flex: 1 1 380px; }
+    .block-text { flex: 1 1 240px; }
+    .block-visual { flex: 1 1 340px; }
     .badge-num { display: inline-block; font-size: 11px; font-weight: 700; border-radius: 6px; padding: 3px 9px; margin-bottom: 14px; }
     .block-light .badge-num { background: var(--ink); color: #fff; }
     .block-coral .badge-num { background: #fff; color: var(--coral); }
@@ -92,9 +96,36 @@
     .export-sub { font-size: 11px; color: var(--muted); margin: 0; }
     .export-btn { margin-left: auto; background: var(--coral); color: #fff; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 20px; border: none; flex-shrink: 0; }
 
+    /* stats + ranking inside block 03 */
+    .stats-card { background: #fff; border-radius: 12px; padding: 18px; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .stats-grid .stat-label { font-size: 10px; color: var(--muted); margin: 0 0 2px; }
+    .stats-grid .stat-value { font-size: 18px; font-weight: 700; margin: 0; color: var(--ink); }
+    .stats-grid .stat-value.accent { color: var(--coral-dark); }
+    .rank-row { display: flex; justify-content: space-between; align-items: center; border-radius: 8px; padding: 7px 10px; margin-bottom: 6px; }
+    .rank-row.top { background: var(--bg); }
+    .rank-name { font-size: 12px; color: var(--ink); }
+    .rank-score { font-size: 11px; font-weight: 700; border-radius: 12px; padding: 2px 9px; }
+    .rank-score.high { background: var(--ink); color: #fff; }
+    .rank-score.mid { background: var(--card); color: var(--ink); }
+
+    /* footer */
+    footer { background: var(--footer-bg); padding: 2rem 2.5rem; }
+    .footer-cols { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 28px; }
+    .footer-col p.footer-heading { font-size: 11px; font-weight: 700; color: #fff; margin: 0 0 10px; }
+    .footer-col a { display: block; font-size: 12px; color: var(--footer-text); text-decoration: none; margin-bottom: 8px; }
+    .footer-col a:last-child { margin-bottom: 0; }
+    .footer-brand { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .footer-brand .logo-mark { background: rgba(255,255,255,0.12); }
+    .footer-brand p { font-size: 13px; font-weight: 700; color: #fff; margin: 0; }
+    .footer-bottom { display: flex; align-items: center; gap: 8px; padding-top: 18px; border-top: 0.5px solid rgba(255,255,255,0.12); flex-wrap: wrap; }
+    .footer-bottom p { font-size: 10px; color: var(--footer-text); margin: 0; }
+    .footer-bottom p.credit { margin-left: auto; }
+    .footer-bottom a { color: inherit; }
+
     /* ---- Responsive ---- */
     @media (max-width: 900px) {
-      .page-frame { padding: 1.5rem; }
+      .content { padding: 1.5rem; }
       .hero-row { gap: 28px; margin-bottom: 40px; }
       .hero { max-width: 100%; }
       .hero-visual { max-width: 100%; }
@@ -109,6 +140,9 @@
       .upload-zone { padding: 28px 16px; }
       .export-card { flex-wrap: wrap; }
       .export-btn { margin-left: 0; width: 100%; text-align: center; }
+      footer { padding: 1.5rem; }
+      .footer-brand { margin-left: 0; width: 100%; margin-top: 8px; }
+      .footer-bottom p.credit { margin-left: 0; }
     }
     @media (max-width: 380px) {
       nav { flex-wrap: wrap; row-gap: 10px; }
@@ -116,76 +150,126 @@
       h1 { font-size: 22px; }
       .rotator-row { grid-template-columns: 46px 1fr; row-gap: 4px; }
       .rotator-chips { grid-column: 1 / -1; justify-content: flex-end; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
   <div class="page-frame">
+    <div class="content">
 
-    <nav>
-      <div class="logo">
-        <div class="logo-mark">L</div>
-        <div class="logo-text">leadscore</div>
-      </div>
-      <div class="nav-links">
-        <a href="https://github.com/catenaf/lead-score-tool" target="_blank">Docs</a>
-        <a href="https://github.com/catenaf/lead-score-tool" target="_blank">Github</a>
-        <a href="#upload" class="btn-nav">Get started</a>
-      </div>
-    </nav>
+      <nav>
+        <div class="logo">
+          <div class="logo-mark"><img src="assets/logo-icon.png" alt="Kriva logo"></div>
+          <div class="logo-text">Kriva</div>
+        </div>
+        <div class="nav-links">
+          <a href="https://github.com/catenaf/lead-score-tool" target="_blank">Docs</a>
+          <a href="https://github.com/catenaf/lead-score-tool" target="_blank">Github</a>
+          <a href="#upload" class="btn-nav">Get started</a>
+        </div>
+      </nav>
 
-    <div class="hero-row">
-      <div class="hero">
-        <p class="eyebrow">Powered by your CRM</p>
-        <h1>The all-in-one scoring tool for your leads</h1>
-        <p>Every tool you need to prioritize outreach and cut through the noise.</p>
-        <a href="#upload" class="btn btn-primary">Get started</a>
-        <a href="https://github.com/catenaf/lead-score-tool" target="_blank" class="btn btn-ghost">View the code ↗</a>
-      </div>
-      <div class="hero-visual">
-        <div class="float-frame">
-          <div id="rotator">
-            <div id="card-content"></div>
-            <div id="dots"></div>
+      <div class="hero-row">
+        <div class="hero">
+          <p class="eyebrow">Kriva</p>
+          <h1>Lead Scoring for the People</h1>
+          <p>Upload your CRM excel and let Kriva score each lead by email, message, phone, role and company.</p>
+          <a href="#upload" class="btn btn-primary">Get started</a>
+          <a href="https://github.com/catenaf/lead-score-tool" target="_blank" class="btn btn-ghost">View the code ↗</a>
+        </div>
+        <div class="hero-visual">
+          <div class="float-frame">
+            <div id="rotator">
+              <div id="card-content"></div>
+              <div id="dots"></div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="block block-light">
-      <div class="block-text">
-        <span class="badge-num">01</span>
-        <p class="block-title">Upload &amp; validate</p>
-        <p class="block-desc">Drop your CRM excel and we check the columns match, right in your browser. Nothing gets uploaded anywhere.</p>
-      </div>
-      <div class="block-visual">
-        <div id="upload" class="upload-zone" onclick="document.getElementById('fileInput').click()">
-          <p class="title">Drag your excel file here</p>
-          <p class="sub">or click to select a file</p>
-          <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+      <div class="block block-light">
+        <div class="block-text">
+          <span class="badge-num">01</span>
+          <p class="block-title">Upload &amp; validate</p>
+          <p class="block-desc">Drop your CRM excel and we check the columns match, right in your browser. Nothing gets uploaded anywhere.</p>
         </div>
-        <div id="output"></div>
-      </div>
-    </div>
-
-    <div class="block block-coral">
-      <div class="block-text">
-        <span class="badge-num">02</span>
-        <p class="block-title">Score every lead automatically</p>
-        <p class="block-desc">Each lead is scored 0-5 based on five signals, ready to export.</p>
-      </div>
-      <div class="block-visual">
-        <div class="export-card">
-          <div class="export-icon">XLS</div>
-          <div>
-            <p class="export-name">scored-leads.xlsx</p>
-            <p class="export-sub">248 rows · score column added</p>
+        <div class="block-visual">
+          <div id="upload" class="upload-zone" onclick="document.getElementById('fileInput').click()">
+            <p class="title">Drag your excel file here</p>
+            <p class="sub">or click to select a file</p>
+            <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
           </div>
-          <button class="export-btn">Download</button>
+          <div id="output"></div>
         </div>
       </div>
+
+      <div class="block block-coral">
+        <div class="block-text">
+          <span class="badge-num">02</span>
+          <p class="block-title">Score every lead automatically</p>
+          <p class="block-desc">Each lead is scored 0-5 based on five signals, ready to export.</p>
+        </div>
+        <div class="block-visual">
+          <div class="export-card">
+            <div class="export-icon">XLS</div>
+            <div>
+              <p class="export-name">scored-leads.xlsx</p>
+              <p class="export-sub">248 rows · score column added</p>
+            </div>
+            <button class="export-btn">Download</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="block block-light">
+        <div class="block-text">
+          <span class="badge-num">03</span>
+          <p class="block-title">Know who to call first</p>
+          <p class="block-desc">Kriva ranks every lead so your team stops guessing.</p>
+        </div>
+        <div class="block-visual">
+          <div class="stats-card">
+            <div class="stats-grid">
+              <div><p class="stat-label">leads</p><p class="stat-value">248</p></div>
+              <div><p class="stat-label">avg score</p><p class="stat-value">2.4</p></div>
+              <div><p class="stat-label">score 5</p><p class="stat-value accent">31</p></div>
+            </div>
+            <div class="rank-row top"><span class="rank-name">Sofia Marchetti</span><span class="rank-score high">5/5</span></div>
+            <div class="rank-row"><span class="rank-name">Laura Pérez</span><span class="rank-score mid">3/5</span></div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
+    <footer>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <p class="footer-heading">Product</p>
+          <a href="https://github.com/catenaf/lead-score-tool" target="_blank">Github</a>
+          <a href="#">Docs</a>
+        </div>
+        <div class="footer-col">
+          <p class="footer-heading">Resources</p>
+          <a href="#">FAQ</a>
+          <a href="#">Roadmap</a>
+        </div>
+        <div class="footer-col">
+          <p class="footer-heading">Legal</p>
+          <a href="#">Legal notice</a>
+          <a href="#">Privacy policy</a>
+        </div>
+        <div class="footer-brand">
+          <div class="logo-mark"><img src="assets/logo-icon.png" alt="Kriva logo"></div>
+          <p>Kriva</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Kriva · MIT License</p>
+        <p class="credit">Icon by Danil Polshin from <a href="https://thenounproject.com" target="_blank">The Noun Project</a></p>
+      </div>
+    </footer>
   </div>
 
   <script>
