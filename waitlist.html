@@ -270,24 +270,30 @@
         message.textContent = 'Joining...';
         submitBtn.disabled = true;
 
-        try {
+      try {
 
-          await fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify(data)
-          });
+  const response = await fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  });
 
-          document.getElementById('default-state').style.display = 'none';
-          document.getElementById('success-state').classList.add('show');
+  const result = await response.json();
 
-        } catch (error) {
+  if (result.duplicate) {
+    message.textContent = "You're already on the list.";
+    submitBtn.disabled = false;
+    return;
+  }
 
-          console.error(error);
-          message.textContent = 'Something went wrong. Please try again.';
-          submitBtn.disabled = false;
-        }
+  document.getElementById('default-state').style.display = 'none';
+  document.getElementById('success-state').classList.add('show');
 
-      });
+} catch (error) {
+
+  console.error(error);
+  message.textContent = 'Something went wrong. Please try again.';
+  submitBtn.disabled = false;
+});
   </script>
 
 </body>
