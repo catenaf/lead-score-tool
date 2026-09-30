@@ -16,6 +16,8 @@
       --ink: #5C1E2B;
       --muted: #A5636F;
       --card: #FBD9D2;
+      --teal: #17A398;
+      --teal-dark: #0E7A72;
       --footer-bg: #3D1428;
       --footer-text: #D9B8C4;
     }
@@ -26,23 +28,33 @@
     .content { padding: 2rem 2.5rem; }
 
     nav { display: flex; align-items: center; margin-bottom: 56px; }
-    .logo { display: flex; align-items: center; gap: 14px; }
-    .logo-mark { width: 48px; height: 48px; border-radius: 50%; background: var(--coral); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }    .logo-mark img { width: 32px; height: 32px; }
-    .logo-text { font-weight: 700; font-size: 24px; }
-    nav .nav-links { margin-left: auto; display: flex; align-items: center; gap: 28px; }
-    nav .nav-links a { font-size: 13px; color: var(--ink); text-decoration: none; }
-    nav .btn-nav { background: var(--coral); color: #fff; font-size: 13px; font-weight: 600; padding: 9px 20px; border-radius: 24px; text-decoration: none; }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-mark { width: 32px; height: 32px; border-radius: 50%; background: var(--coral); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .logo-mark svg { width: 18px; height: 18px; }
+    .logo-text { font-weight: 700; font-size: 22px; }
+    nav .nav-links { margin-left: auto; display: flex; align-items: center; gap: 20px; }
+    /* Hidden for now, not deleted — will come back once more pages exist */
+    nav .nav-links a { display: none; font-size: 13px; color: var(--ink); text-decoration: none; }
+    .btn-nav { background: var(--teal); color: #fff; font-size: 13px; font-weight: 700; padding: 10px 20px; border-radius: 24px; text-decoration: none; }
 
     /* hero */
     .hero-row { display: flex; gap: 48px; align-items: center; margin-bottom: 56px; flex-wrap: wrap; }
     .hero { flex: 1 1 380px; max-width: 460px; }
-    .eyebrow { font-size: 12px; font-weight: 700; color: var(--coral); margin: 0 0 12px; }
+    .badge-soon { display: inline-block; background: var(--ink); color: #fff; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 14px; margin-bottom: 16px; }
     h1 { font-size: 34px; font-weight: 800; line-height: 1.2; margin: 0 0 14px; color: var(--ink); }
-    .hero p { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0 0 24px; max-width: 380px; }
-    .btn { display: inline-block; border: none; cursor: pointer; font-size: 13px; font-weight: 600; padding: 11px 22px; border-radius: 24px; text-decoration: none; }
-    .btn-primary { background: var(--coral); color: #fff; }
-    .btn-primary:hover { background: var(--coral-dark); }
-    .btn-ghost { background: transparent; color: var(--ink); padding: 11px 6px; }
+    .hero p { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0 0 24px; max-width: 400px; }
+    .btn { display: inline-block; border: none; cursor: pointer; font-size: 14px; font-weight: 700; padding: 13px 26px; border-radius: 26px; text-decoration: none; }
+    .btn-primary { background: var(--teal); color: #fff; }
+    .btn-primary:hover { background: var(--teal-dark); }
+
+    /* trust chips */
+    .trust-chips { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
+    .trust-chip { background: transparent; border: 1.5px solid var(--teal); color: var(--teal-dark); font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 16px; }
+    .trust-chip strong { font-weight: 800; display: inline-block; animation: chip-pulse 3.2s ease-in-out infinite; }
+    @keyframes chip-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
 
     .hero-visual { flex: 1 1 380px; max-width: 440px; }
     .float-frame { background: #fff; border-radius: 20px; padding: 8px; box-shadow: 0 16px 34px rgba(92,30,43,0.14); }
@@ -66,7 +78,7 @@
     .block { display: flex; gap: 32px; align-items: center; border-radius: 16px; padding: 32px; margin-bottom: 16px; flex-wrap: wrap; }
     .block-light { background: var(--card); }
     .block-coral { background: var(--coral); }
-    .block-text { flex: 1 1 240px; }
+    .block-text { flex: 1 1 260px; }
     .block-visual { flex: 1 1 340px; }
     .badge-num { display: inline-block; font-size: 11px; font-weight: 700; border-radius: 6px; padding: 3px 9px; margin-bottom: 14px; }
     .block-light .badge-num { background: var(--ink); color: #fff; }
@@ -74,11 +86,10 @@
     .block-title { font-size: 19px; font-weight: 700; margin: 0 0 10px; }
     .block-light .block-title { color: var(--ink); }
     .block-coral .block-title { color: #fff; }
-    .block-desc { font-size: 13px; line-height: 1.6; margin: 0; max-width: 260px; }
+    .block-desc { font-size: 13px; line-height: 1.6; margin: 0; max-width: 280px; }
     .block-light .block-desc { color: var(--muted); }
     .block-coral .block-desc { color: #FCE0E6; }
 
-    /* upload zone inside block 01 */
     .upload-zone { border: 1.5px dashed #F2A3A9; border-radius: 12px; background: #fff; padding: 44px 20px; text-align: center; cursor: pointer; }
     .upload-zone:hover { border-color: var(--coral); }
     .upload-zone p { margin: 6px 0; }
@@ -88,14 +99,12 @@
     #output { margin-top: 14px; }
     #output pre { background: #fff; border-radius: 8px; padding: 14px; font-size: 12px; overflow-x: auto; }
 
-    /* export mockup inside block 02 */
     .export-card { background: #fff; border-radius: 12px; padding: 18px 20px; display: flex; align-items: center; gap: 14px; }
     .export-icon { width: 38px; height: 38px; border-radius: 8px; background: var(--card); display: flex; align-items: center; justify-content: center; font-size: 15px; color: var(--coral-dark); font-weight: 700; flex-shrink: 0; }
     .export-name { font-size: 13px; font-weight: 600; color: var(--ink); margin: 0 0 3px; }
     .export-sub { font-size: 11px; color: var(--muted); margin: 0; }
     .export-btn { margin-left: auto; background: var(--coral); color: #fff; font-size: 12px; font-weight: 600; padding: 8px 16px; border-radius: 20px; border: none; flex-shrink: 0; }
 
-    /* stats + ranking inside block 03 */
     .stats-card { background: #fff; border-radius: 12px; padding: 18px; }
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
     .stats-grid .stat-label { font-size: 10px; color: var(--muted); margin: 0 0 2px; }
@@ -108,15 +117,23 @@
     .rank-score.high { background: var(--ink); color: #fff; }
     .rank-score.mid { background: var(--card); color: var(--ink); }
 
+    /* bottom CTA */
+    .bottom-cta { text-align: center; padding: 20px 0 8px; }
+    .bottom-cta p.title { font-weight: 700; font-size: 20px; margin: 0 0 10px; color: var(--ink); }
+    .bottom-cta p.sub { font-size: 13px; color: var(--muted); margin: 0 0 22px; }
+
     /* footer */
     footer { background: var(--footer-bg); padding: 2rem 2.5rem; }
     .footer-cols { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 28px; }
+    /* Hidden for now, not deleted */
+    .footer-col { display: none; }
     .footer-col p.footer-heading { font-size: 11px; font-weight: 700; color: #fff; margin: 0 0 10px; }
     .footer-col a { display: block; font-size: 12px; color: var(--footer-text); text-decoration: none; margin-bottom: 8px; }
-    .footer-col a:last-child { margin-bottom: 0; }
-    .footer-brand { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+    .footer-brand { display: flex; align-items: center; gap: 10px; }
     .footer-brand .logo-mark { width: 24px; height: 24px; background: rgba(255,255,255,0.12); }
-    .footer-brand p { font-size: 13px; font-weight: 700; color: #fff; margin: 0; }
+    .footer-brand .logo-mark svg { width: 14px; height: 14px; }
+    .footer-brand p.name { font-size: 15px; font-weight: 700; color: #fff; margin: 0; }
+    .footer-brand p.tagline { font-size: 12px; color: var(--footer-text); margin: 2px 0 0; }
     .footer-bottom { display: flex; align-items: center; gap: 8px; padding-top: 18px; border-top: 0.5px solid rgba(255,255,255,0.12); flex-wrap: wrap; }
     .footer-bottom p { font-size: 10px; color: var(--footer-text); margin: 0; }
     .footer-bottom p.credit { margin-left: auto; }
@@ -133,19 +150,15 @@
     @media (max-width: 640px) {
       body { padding: 12px; }
       nav { margin-bottom: 36px; }
-      nav .nav-links { gap: 16px; }
       h1 { font-size: 26px; }
-      .btn { padding: 10px 18px; font-size: 12px; }
+      .btn { padding: 11px 20px; font-size: 13px; }
       .upload-zone { padding: 28px 16px; }
       .export-card { flex-wrap: wrap; }
       .export-btn { margin-left: 0; width: 100%; text-align: center; }
       footer { padding: 1.5rem; }
-      .footer-brand { margin-left: 0; width: 100%; margin-top: 8px; }
       .footer-bottom p.credit { margin-left: 0; }
     }
     @media (max-width: 380px) {
-      nav { flex-wrap: wrap; row-gap: 10px; }
-      nav .nav-links { margin-left: 0; width: 100%; justify-content: space-between; }
       h1 { font-size: 22px; }
       .rotator-row { grid-template-columns: 46px 1fr; row-gap: 4px; }
       .rotator-chips { grid-column: 1 / -1; justify-content: flex-end; }
@@ -159,28 +172,32 @@
 
       <nav>
         <div class="logo">
- <div class="logo-mark">
-  <svg width="34" height="34" viewBox="8 5 90 92" fill="#fff">
-    <path d="m49.738 49.211c-15.379 17.68-14.16 33.852-20.43 33.91-7.1406 0.078125-17.148-20.781-12.711-39.59 0.57031-2.4102 5.3008-21.109 22.422-27.051 15.66-5.4414 34.84 2.1914 35.77 9.7695 0.78125 6.3281-11.781 7.7109-25.051 22.961z"/>
-    <path d="m53.801 83.129c-2.4805-1.9102-3.4492-4.8203-4.0586-6.6406-2.4102-7.1992 0.48828-13.699 1.2812-15.461 3.4102-7.6484 12.199-16.531 21.488-14.828 4.4102 0.80859 7.1914 3.6797 8.0391 4.6406 5.7617 6.5117 4.75 17.441 0 24.379-6.3516 9.2695-20.34 12.852-26.738 7.9219z"/>
-  </svg>
-</div>
+          <div class="logo-mark">
+            <svg viewBox="8 5 90 92" fill="#fff">
+              <path d="m49.738 49.211c-15.379 17.68-14.16 33.852-20.43 33.91-7.1406 0.078125-17.148-20.781-12.711-39.59 0.57031-2.4102 5.3008-21.109 22.422-27.051 15.66-5.4414 34.84 2.1914 35.77 9.7695 0.78125 6.3281-11.781 7.7109-25.051 22.961z"/>
+              <path d="m53.801 83.129c-2.4805-1.9102-3.4492-4.8203-4.0586-6.6406-2.4102-7.1992 0.48828-13.699 1.2812-15.461 3.4102-7.6484 12.199-16.531 21.488-14.828 4.4102 0.80859 7.1914 3.6797 8.0391 4.6406 5.7617 6.5117 4.75 17.441 0 24.379-6.3516 9.2695-20.34 12.852-26.738 7.9219z"/>
+            </svg>
+          </div>
           <div class="logo-text">Kribaro</div>
         </div>
         <div class="nav-links">
           <a href="https://github.com/catenaf/lead-score-tool" target="_blank">Docs</a>
           <a href="https://github.com/catenaf/lead-score-tool" target="_blank">Github</a>
-          <a href="#upload" class="btn-nav">Get started</a>
+          <a href="#waitlist" class="btn-nav">Join the waitlist</a>
         </div>
       </nav>
 
       <div class="hero-row">
         <div class="hero">
-          <p class="eyebrow">Kribaro</p>
+          <span class="badge-soon">Kribaro — coming soon</span>
           <h1>Lead Scoring for the People</h1>
-          <p>Upload your CRM excel and let Kribaro score each lead by email, message, phone, role and company.</p>
-          <a href="#upload" class="btn btn-primary">Get started</a>
-          <a href="https://github.com/catenaf/lead-score-tool" target="_blank" class="btn btn-ghost">View the code ↗</a>
+          <p>Score every lead the moment it lands in your CRM, so sales knows who to call first and marketing finally gets an objective answer on lead quality.</p>
+          <a href="#waitlist" class="btn btn-primary">Join the waitlist</a>
+          <div class="trust-chips">
+            <span class="trust-chip"><strong>100%</strong> private</span>
+            <span class="trust-chip"><strong>No</strong> setup</span>
+            <span class="trust-chip">Works with your CRM <strong>as is</strong></span>
+          </div>
         </div>
         <div class="hero-visual">
           <div class="float-frame">
@@ -196,7 +213,7 @@
         <div class="block-text">
           <span class="badge-num">01</span>
           <p class="block-title">Upload &amp; validate</p>
-          <p class="block-desc">Drop your CRM excel and we check the columns match, right in your browser. Nothing gets uploaded anywhere.</p>
+          <p class="block-desc">Drop your CRM export and Kribaro checks it against the columns it expects, right in your browser. We never see, store, or touch your leads.</p>
         </div>
         <div class="block-visual">
           <div id="upload" class="upload-zone" onclick="document.getElementById('fileInput').click()">
@@ -212,7 +229,7 @@
         <div class="block-text">
           <span class="badge-num">02</span>
           <p class="block-title">Score every lead automatically</p>
-          <p class="block-desc">Each lead is scored 0-5 based on five signals, ready to export.</p>
+          <p class="block-desc">Each lead gets scored on five signals: message clarity, seniority, company fit, phone validity, and email quality. Every score comes with the reasons behind it, so sales and marketing are finally looking at the same numbers.</p>
         </div>
         <div class="block-visual">
           <div class="export-card">
@@ -230,7 +247,7 @@
         <div class="block-text">
           <span class="badge-num">03</span>
           <p class="block-title">Know who to call first</p>
-          <p class="block-desc">Kribaro ranks every lead so your team stops guessing.</p>
+          <p class="block-desc">Kribaro ranks every lead so your team stops guessing, and gives marketing a clear, shared scorecard instead of a gut feeling about which leads are worth chasing.</p>
         </div>
         <div class="block-visual">
           <div class="stats-card">
@@ -243,6 +260,12 @@
             <div class="rank-row"><span class="rank-name">Laura Pérez</span><span class="rank-score mid">3/5</span></div>
           </div>
         </div>
+      </div>
+
+      <div class="bottom-cta" id="waitlist">
+        <p class="title">Be the first to try Kribaro</p>
+        <p class="sub">We're building this in the open. Join the waitlist and we'll email you the moment it's ready.</p>
+        <a href="#" class="btn btn-primary">Join the waitlist</a>
       </div>
 
     </div>
@@ -264,19 +287,22 @@
           <a href="#">Legal notice</a>
           <a href="#">Privacy policy</a>
         </div>
-        <div class="footer-brand">
-  <div class="logo-mark">
-  <svg width="14" height="14" viewBox="8 5 90 92" fill="#fff">
-    <path d="m49.738 49.211c-15.379 17.68-14.16 33.852-20.43 33.91-7.1406 0.078125-17.148-20.781-12.711-39.59 0.57031-2.4102 5.3008-21.109 22.422-27.051 15.66-5.4414 34.84 2.1914 35.77 9.7695 0.78125 6.3281-11.781 7.7109-25.051 22.961z"/>
-    <path d="m53.801 83.129c-2.4805-1.9102-3.4492-4.8203-4.0586-6.6406-2.4102-7.1992 0.48828-13.699 1.2812-15.461 3.4102-7.6484 12.199-16.531 21.488-14.828 4.4102 0.80859 7.1914 3.6797 8.0391 4.6406 5.7617 6.5117 4.75 17.441 0 24.379-6.3516 9.2695-20.34 12.852-26.738 7.9219z"/>
-  </svg>
-</div>
-          <p>Kribaro</p>
+      </div>
+      <div class="footer-brand">
+        <div class="logo-mark">
+          <svg viewBox="8 5 90 92" fill="#fff">
+            <path d="m49.738 49.211c-15.379 17.68-14.16 33.852-20.43 33.91-7.1406 0.078125-17.148-20.781-12.711-39.59 0.57031-2.4102 5.3008-21.109 22.422-27.051 15.66-5.4414 34.84 2.1914 35.77 9.7695 0.78125 6.3281-11.781 7.7109-25.051 22.961z"/>
+            <path d="m53.801 83.129c-2.4805-1.9102-3.4492-4.8203-4.0586-6.6406-2.4102-7.1992 0.48828-13.699 1.2812-15.461 3.4102-7.6484 12.199-16.531 21.488-14.828 4.4102 0.80859 7.1914 3.6797 8.0391 4.6406 5.7617 6.5117 4.75 17.441 0 24.379-6.3516 9.2695-20.34 12.852-26.738 7.9219z"/>
+          </svg>
+        </div>
+        <div>
+          <p class="name">Kribaro</p>
+          <p class="tagline">Lead scoring for the people.</p>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 Kribaro · MIT License</p>
-        <p class="credit">Icon by Danil Polshin from <a href="https://thenounproject.com" target="_blank">The Noun Project</a></p>
+        <p>© 2026 Kribaro</p>
+        <p class="credit">Icon by Kalaakarini from <a href="https://thenounproject.com" target="_blank">The Noun Project</a></p>
       </div>
     </footer>
   </div>
