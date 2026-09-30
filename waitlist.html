@@ -1,1 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kribaro — Get Early Access</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FCE7E2;
+      --coral: #F2637A;
+      --coral-dark: #C94A65;
+      --ink: #5C1E2B;
+      --muted: #A5636F;
+      --card: #FBD9D2;
+      --teal: #17A398;
+      --teal-dark: #0E7A72;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
 
+    .stage {
+      position: relative;
+      width: 100%;
+      max-width: 720px;
+      min-height: 520px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 30px 70px rgba(92,30,43,0.18);
+    }
+
+    /* ---- Blurred product mockup behind the glass ---- */
+    .app-preview {
+      position: absolute;
+      inset: 0;
+      filter: blur(6px);
+      opacity: 0.8;
+      background: var(--bg);
+    }
+    .app-topbar {
+      display: flex; align-items: center; padding: 16px 24px;
+      background: #fff; border-bottom: 1px solid #F5C6BF;
+    }
+    .app-logo-dot { width: 24px; height: 24px; border-radius: 50%; background: var(--coral); }
+    .app-topbar .name { font-weight: 700; font-size: 15px; margin: 0 0 0 10px; color: var(--ink); }
+    .app-topbar .spacer { margin-left: auto; display: flex; gap: 18px; align-items: center; }
+    .bar { border-radius: 4px; background: #F5C6BF; }
+    .app-body { display: flex; }
+    .app-sidebar { width: 140px; background: #fff; padding: 24px 16px; display: flex; flex-direction: column; gap: 16px; min-height: 460px; }
+    .app-main { flex: 1; padding: 26px; }
+    .app-upload {
+      border: 1.5px dashed #F2A3A9; border-radius: 12px; background: var(--card);
+      padding: 28px; text-align: center; margin-bottom: 20px;
+    }
+    .app-cards { display: flex; gap: 12px; margin-bottom: 18px; }
+    .app-card { flex: 1; background: #fff; border: 1px solid #F5C6BF; border-radius: 8px; padding: 12px; }
+    .app-table { background: #fff; border: 1px solid #F5C6BF; border-radius: 10px; padding: 14px; }
+    .app-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--bg); }
+    .app-row:last-child { border-bottom: none; }
+    .score-pill { width: 26px; height: 18px; border-radius: 9px; }
+
+    /* ---- Glass card ---- */
+    .glass-wrap {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      background: rgba(92,30,43,0.06);
+    }
+    .glass-card {
+      background: rgba(255,255,255,0.35);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(92,30,43,0.2);
+      padding: 2.25rem;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+    }
+    .glass-logo {
+      width: 48px; height: 48px; border-radius: 50%; background: var(--coral);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 18px;
+    }
+    .glass-logo svg { width: 26px; height: 26px; }
+    .glass-card h1 { font-size: 22px; font-weight: 800; margin: 0 0 10px; color: var(--ink); }
+    .glass-card p.sub { font-size: 13px; color: var(--ink); opacity: 0.75; line-height: 1.5; margin: 0 0 20px; }
+
+    #waitlist-form input[type="email"] {
+      width: 100%; box-sizing: border-box; padding: 12px 14px;
+      border-radius: 12px; border: 1px solid rgba(92,30,43,0.2);
+      background: rgba(255,255,255,0.7); font-size: 13px; color: var(--ink);
+      outline: none; margin-bottom: 14px;
+    }
+    #waitlist-form input[type="email"]:focus { border-color: var(--teal); }
+
+    .consent-row {
+      display: flex; align-items: flex-start; gap: 8px;
+      text-align: left; margin-bottom: 16px;
+    }
+    .consent-row input[type="checkbox"] {
+      margin-top: 2px; flex-shrink: 0; accent-color: var(--teal);
+    }
+    .consent-row label {
+      font-size: 11px; color: var(--ink); opacity: 0.75; line-height: 1.4;
+    }
+
+    #waitlist-form button {
+      width: 100%; background: var(--teal); color: #fff; border: none;
+      font-size: 14px; font-weight: 700; padding: 13px; border-radius: 12px;
+      cursor: pointer;
+    }
+    #waitlist-form button:hover { background: var(--teal-dark); }
+    #waitlist-form button:disabled { opacity: 0.6; cursor: default; }
+
+    #message {
+      font-size: 12px; color: var(--coral-dark); min-height: 16px;
+      margin: 12px 0 0;
+    }
+
+    .fine-print { font-size: 11px; color: var(--ink); opacity: 0.6; margin: 14px 0 0; }
+
+    .success-state { display: none; }
+    .success-state.show { display: block; }
+    .success-state .check {
+      width: 48px; height: 48px; border-radius: 50%; background: var(--teal);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin: 0 auto 16px;
+    }
+
+    @media (max-width: 480px) {
+      .app-sidebar { width: 90px; }
+      .glass-card { padding: 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stage">
+
+    <!-- Blurred product preview -->
+    <div class="app-preview">
+      <div class="app-topbar">
+        <div class="app-logo-dot"></div>
+        <p class="name">Kribaro</p>
+        <div class="spacer">
+          <div class="bar" style="width:50px;height:8px"></div>
+          <div class="bar" style="width:50px;height:8px"></div>
+          <div style="width:24px;height:24px;border-radius:50%;background:var(--card)"></div>
+        </div>
+      </div>
+      <div class="app-body">
+        <div class="app-sidebar">
+          <div class="bar" style="width:80%;height:9px;background:var(--coral)"></div>
+          <div class="bar" style="width:70%;height:9px"></div>
+          <div class="bar" style="width:75%;height:9px"></div>
+          <div class="bar" style="width:60%;height:9px"></div>
+        </div>
+        <div class="app-main">
+          <div class="bar" style="width:160px;height:12px;background:var(--ink);opacity:0.7;margin-bottom:16px"></div>
+          <div class="app-upload">
+            <div style="width:24px;height:24px;border-radius:6px;border:2px solid var(--coral);margin:0 auto 8px"></div>
+            <div class="bar" style="width:120px;height:8px;background:var(--coral);margin:0 auto"></div>
+          </div>
+          <div class="app-cards">
+            <div class="app-card">
+              <div class="bar" style="width:60%;height:7px;background:var(--muted);margin-bottom:6px"></div>
+              <div class="bar" style="width:80%;height:9px;background:var(--ink)"></div>
+            </div>
+            <div class="app-card">
+              <div class="bar" style="width:60%;height:7px;background:var(--muted);margin-bottom:6px"></div>
+              <div class="bar" style="width:80%;height:9px;background:var(--ink)"></div>
+            </div>
+            <div class="app-card">
+              <div class="bar" style="width:60%;height:7px;background:var(--muted);margin-bottom:6px"></div>
+              <div class="bar" style="width:80%;height:9px;background:var(--ink)"></div>
+            </div>
+          </div>
+          <div class="app-table">
+            <div class="app-row">
+              <div class="bar" style="width:40%;height:7px;background:var(--muted)"></div>
+              <div class="score-pill" style="background:var(--ink)"></div>
+            </div>
+            <div class="app-row">
+              <div class="bar" style="width:55%;height:7px;background:var(--muted)"></div>
+              <div class="score-pill" style="background:#F5C6BF"></div>
+            </div>
+            <div class="app-row">
+              <div class="bar" style="width:45%;height:7px;background:var(--muted)"></div>
+              <div class="score-pill" style="background:#F5C6BF"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Glass form -->
+    <div class="glass-wrap">
+      <div class="glass-card">
+
+        <div id="default-state">
+          <div class="glass-logo">
+            <svg viewBox="8 5 90 92" fill="#fff">
+              <path d="m49.738 49.211c-15.379 17.68-14.16 33.852-20.43 33.91-7.1406 0.078125-17.148-20.781-12.711-39.59 0.57031-2.4102 5.3008-21.109 22.422-27.051 15.66-5.4414 34.84 2.1914 35.77 9.7695 0.78125 6.3281-11.781 7.7109-25.051 22.961z"/>
+              <path d="m53.801 83.129c-2.4805-1.9102-3.4492-4.8203-4.0586-6.6406-2.4102-7.1992 0.48828-13.699 1.2812-15.461 3.4102-7.6484 12.199-16.531 21.488-14.828 4.4102 0.80859 7.1914 3.6797 8.0391 4.6406 5.7617 6.5117 4.75 17.441 0 24.379-6.3516 9.2695-20.34 12.852-26.738 7.9219z"/>
+            </svg>
+          </div>
+          <h1>Kribaro is almost ready</h1>
+          <p class="sub">Leave your email and we'll send you access the moment it's live.</p>
+
+          <form id="waitlist-form">
+            <input type="email" id="email" placeholder="you@company.com" required>
+
+            <div class="consent-row">
+              <input type="checkbox" id="consent" required>
+              <label for="consent">I agree to the processing of my email for early access.</label>
+            </div>
+
+            <button type="submit" id="submit-btn">Request access</button>
+          </form>
+
+          <p id="message"></p>
+          <p class="fine-print">No spam. One email when we launch.</p>
+        </div>
+
+        <div id="success-state" class="success-state">
+          <div class="check">✓</div>
+          <h1>You're on the list</h1>
+          <p class="sub">We'll email you the moment Kribaro is ready. Keep an eye on your inbox.</p>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const SCRIPT_URL =
+      'https://script.google.com/macros/s/AKfycbw6cooQ2hkCsK2gS-vzh7PceeA5_uLTr38cV3yxG6RR28SBPILYl-0vzWCWOVHUOslQAg/exec';
+
+    document
+      .getElementById('waitlist-form')
+      .addEventListener('submit', async function(event) {
+
+        event.preventDefault();
+
+        const email = document.getElementById('email').value.trim();
+        const language = navigator.language || '';
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        const source = new URLSearchParams(window.location.search).get('utm_source') || '';
+
+        const data = { email: email, language: language, timezone: timezone, source: source };
+
+        const message = document.getElementById('message');
+        const submitBtn = document.getElementById('submit-btn');
+
+        message.textContent = 'Joining...';
+        submitBtn.disabled = true;
+
+        try {
+
+          await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(data)
+          });
+
+          document.getElementById('default-state').style.display = 'none';
+          document.getElementById('success-state').classList.add('show');
+
+        } catch (error) {
+
+          console.error(error);
+          message.textContent = 'Something went wrong. Please try again.';
+          submitBtn.disabled = false;
+        }
+
+      });
+  </script>
+
+</body>
+</html>
