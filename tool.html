@@ -21,56 +21,74 @@
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); padding: 24px; }
-    .page-frame { max-width: 720px; margin: 0 auto; border: 1px solid #F5C6BF; border-radius: 20px; padding: 2rem; background: var(--bg); }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); padding: 32px; }
+    .page-frame { max-width: 960px; margin: 0 auto; border: 1px solid #F5C6BF; border-radius: 20px; padding: 2.5rem; background: var(--bg); }
 
-    nav { display: flex; align-items: center; margin-bottom: 36px; }
+    nav { display: flex; align-items: center; margin-bottom: 40px; }
     .logo { display: flex; align-items: center; gap: 10px; }
     .logo-mark { width: 30px; height: 30px; border-radius: 50%; background: var(--coral); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
     .logo-mark svg { width: 17px; height: 17px; }
     .logo-text { font-weight: 700; font-size: 17px; }
 
     /* stepper */
-    .stepper { display: flex; align-items: center; margin-bottom: 32px; }
+    .stepper { display: flex; align-items: center; margin-bottom: 36px; max-width: 520px; }
     .step { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-    .step .dot { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
-    .step .label { font-size: 10px; color: var(--muted); }
+    .step .dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+    .step .label { font-size: 11px; color: var(--muted); white-space: nowrap; }
     .step.done .dot { background: var(--ink); color: #fff; }
     .step.done .label { color: var(--ink); font-weight: 600; }
     .step.active .dot { background: var(--teal); color: #fff; }
     .step.active .label { color: var(--ink); font-weight: 700; }
     .step.upcoming .dot { background: #fff; border: 1.5px solid #F0C7C1; color: var(--muted); }
-    .step-line { flex: 1; height: 2px; background: #F0C7C1; margin: 0 6px 18px; }
+    .step-line { flex: 1; height: 2px; background: #F0C7C1; margin: 0 8px 20px; }
     .step-line.done { background: var(--ink); }
 
     .step-panel { display: none; }
     .step-panel.active { display: block; }
-    .step-panel h2 { font-size: 19px; font-weight: 800; margin: 0 0 4px; color: var(--ink); }
-    .step-panel .hint { font-size: 12px; color: var(--muted); margin: 0 0 22px; }
+    .step-panel h2 { font-size: 21px; font-weight: 800; margin: 0 0 4px; color: var(--ink); }
+    .step-panel .hint { font-size: 13px; color: var(--muted); margin: 0 0 24px; }
 
     .upload-zone {
       border: 1.5px dashed #F2A3A9; border-radius: 12px; background: #fff;
-      padding: 44px 20px; text-align: center; cursor: pointer;
+      padding: 56px 24px; text-align: center; cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
     }
-    .upload-zone:hover { border-color: var(--coral); }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--coral); background: var(--card); }
     .upload-zone .title { font-weight: 500; font-size: 14px; color: var(--ink); margin: 6px 0; }
     .upload-zone .sub { font-size: 12px; color: var(--muted); margin: 0; }
     input[type="file"] { display: none; }
 
-    .columns-found { margin-top: 20px; }
+    .columns-found { margin-top: 24px; }
     .columns-found p.label { font-size: 12px; color: var(--muted); margin: 0 0 10px; }
-    .column-pill-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+    .column-pill-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
     .column-pill { background: #fff; border: 1px solid #F0C7C1; border-radius: 16px; padding: 6px 14px; font-size: 12px; color: var(--ink); }
 
     .error-box { background: #fff; border: 1.5px solid var(--coral); border-radius: 10px; padding: 14px 16px; font-size: 12px; color: var(--coral-dark); margin-top: 16px; }
 
-    .btn { display: inline-block; border: none; cursor: pointer; font-size: 13px; font-weight: 700; padding: 11px 22px; border-radius: 22px; }
+    .btn { display: inline-block; border: none; cursor: pointer; font-size: 13px; font-weight: 700; padding: 12px 24px; border-radius: 22px; }
     .btn-primary { background: var(--teal); color: #fff; }
     .btn-primary:hover { background: var(--teal-dark); }
     .btn-primary:disabled { opacity: 0.5; cursor: default; }
     .btn-row { display: flex; justify-content: flex-end; }
 
-    .placeholder-panel { background: #fff; border-radius: 12px; padding: 24px; text-align: center; color: var(--muted); font-size: 12px; }
+    .placeholder-panel { background: #fff; border-radius: 12px; padding: 28px; text-align: center; color: var(--muted); font-size: 12px; }
+
+    /* ---- Responsive: shrink down from the desktop base above ---- */
+    @media (max-width: 900px) {
+      body { padding: 20px; }
+      .page-frame { padding: 1.75rem; }
+    }
+    @media (max-width: 640px) {
+      body { padding: 12px; }
+      .page-frame { padding: 1.25rem; border-radius: 16px; }
+      .stepper { max-width: 100%; }
+      .step .label { display: none; }
+      .step-panel h2 { font-size: 18px; }
+      .upload-zone { padding: 36px 16px; }
+    }
+    @media (max-width: 380px) {
+      .step-line { margin: 0 4px 0; }
+    }
   </style>
 </head>
 <body>
@@ -180,10 +198,8 @@
       document.getElementById('error-box').innerHTML = '';
     }
 
-    document.getElementById('fileInput').addEventListener('change', function(e) {
-      const file = e.target.files[0];
+    function processFile(file) {
       if (!file) return;
-
       clearError();
 
       const reader = new FileReader();
@@ -216,6 +232,28 @@
         }
       };
       reader.readAsArrayBuffer(file);
+    }
+
+    const uploadZone = document.getElementById('upload-zone');
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      processFile(e.target.files[0]);
+    });
+
+    uploadZone.addEventListener('dragover', function(e) {
+      e.preventDefault();
+      uploadZone.classList.add('drag-over');
+    });
+
+    uploadZone.addEventListener('dragleave', function() {
+      uploadZone.classList.remove('drag-over');
+    });
+
+    uploadZone.addEventListener('drop', function(e) {
+      e.preventDefault();
+      uploadZone.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      processFile(file);
     });
 
     document.getElementById('continue-btn').addEventListener('click', function() {
