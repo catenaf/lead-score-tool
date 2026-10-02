@@ -1,1 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kribaro — Tool</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --bg: #FCE7E2;
+      --coral: #F2637A;
+      --coral-dark: #C94A65;
+      --ink: #5C1E2B;
+      --muted: #A5636F;
+      --card: #FBD9D2;
+      --teal: #17A398;
+      --teal-dark: #0E7A72;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); padding: 24px; }
+    .page-frame { max-width: 720px; margin: 0 auto; border: 1px solid #F5C6BF; border-radius: 20px; padding: 2rem; background: var(--bg); }
 
+    nav { display: flex; align-items: center; margin-bottom: 36px; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-mark { width: 30px; height: 30px; border-radius: 50%; background: var(--coral); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .logo-mark svg { width: 17px; height: 17px; }
+    .logo-text { font-weight: 700; font-size: 17px; }
+
+    /* stepper */
+    .stepper { display: flex; align-items: center; margin-bottom: 32px; }
+    .step { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .step .dot { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+    .step .label { font-size: 10px; color: var(--muted); }
+    .step.done .dot { background: var(--ink); color: #fff; }
+    .step.done .label { color: var(--ink); font-weight: 600; }
+    .step.active .dot { background: var(--teal); color: #fff; }
+    .step.active .label { color: var(--ink); font-weight: 700; }
+    .step.upcoming .dot { background: #fff; border: 1.5px solid #F0C7C1; color: var(--muted); }
+    .step-line { flex: 1; height: 2px; background: #F0C7C1; margin: 0 6px 18px; }
+    .step-line.done { background: var(--ink); }
+
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+    .step-panel h2 { font-size: 19px; font-weight: 800; margin: 0 0 4px; color: var(--ink); }
+    .step-panel .hint { font-size: 12px; color: var(--muted); margin: 0 0 22px; }
+
+    .upload-zone {
+      border: 1.5px dashed #F2A3A9; border-radius: 12px; background: #fff;
+      padding: 44px 20px; text-align: center; cursor: pointer;
+    }
+    .upload-zone:hover { border-color: var(--coral); }
+    .upload-zone .title { font-weight: 500; font-size: 14px; color: var(--ink); margin: 6px 0; }
+    .upload-zone .sub { font-size: 12px; color: var(--muted); margin: 0; }
+    input[type="file"] { display: none; }
+
+    .columns-found { margin-top: 20px; }
+    .columns-found p.label { font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+    .column-pill-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 22px; }
+    .column-pill { background: #fff; border: 1px solid #F0C7C1; border-radius: 16px; padding: 6px 14px; font-size: 12px; color: var(--ink); }
+
+    .error-box { background: #fff; border: 1.5px solid var(--coral); border-radius: 10px; padding: 14px 16px; font-size: 12px; color: var(--coral-dark); margin-top: 16px; }
+
+    .btn { display: inline-block; border: none; cursor: pointer; font-size: 13px; font-weight: 700; padding: 11px 22px; border-radius: 22px; }
+    .btn-primary { background: var(--teal); color: #fff; }
+    .btn-primary:hover { background: var(--teal-dark); }
+    .btn-primary:disabled { opacity: 0.5; cursor: default; }
+    .btn-row { display: flex; justify-content: flex-end; }
+
+    .placeholder-panel { background: #fff; border-radius: 12px; padding: 24px; text-align: center; color: var(--muted); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="page-frame">
+
+    <nav>
+      <div class="logo">
+        <div class="logo-mark">
+          <svg viewBox="8 5 90 92" fill="#fff">
+            <path d="m49.738 49.211c-15.379 17.68-14.16 33.852-20.43 33.91-7.1406 0.078125-17.148-20.781-12.711-39.59 0.57031-2.4102 5.3008-21.109 22.422-27.051 15.66-5.4414 34.84 2.1914 35.77 9.7695 0.78125 6.3281-11.781 7.7109-25.051 22.961z"/>
+            <path d="m53.801 83.129c-2.4805-1.9102-3.4492-4.8203-4.0586-6.6406-2.4102-7.1992 0.48828-13.699 1.2812-15.461 3.4102-7.6484 12.199-16.531 21.488-14.828 4.4102 0.80859 7.1914 3.6797 8.0391 4.6406 5.7617 6.5117 4.75 17.441 0 24.379-6.3516 9.2695-20.34 12.852-26.738 7.9219z"/>
+          </svg>
+        </div>
+        <div class="logo-text">Kribaro</div>
+      </div>
+    </nav>
+
+    <div class="stepper" id="stepper"></div>
+
+    <!-- STEP 1 -->
+    <div class="step-panel active" id="panel-1">
+      <h2>Upload your file</h2>
+      <p class="hint">We'll read the column headers right here in your browser. Nothing is uploaded anywhere.</p>
+
+      <div id="upload-zone" class="upload-zone" onclick="document.getElementById('fileInput').click()">
+        <p class="title">Drag your excel file here</p>
+        <p class="sub">or click to select a file (.xlsx, .xls, .csv)</p>
+        <input type="file" id="fileInput" accept=".xlsx,.xls,.csv">
+      </div>
+
+      <div id="error-box"></div>
+
+      <div id="columns-found" class="columns-found" style="display:none">
+        <p class="label">We found these columns in your file:</p>
+        <div id="column-pill-list" class="column-pill-list"></div>
+        <div class="btn-row">
+          <button id="continue-btn" class="btn btn-primary">Continue</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 (placeholder for now) -->
+    <div class="step-panel" id="panel-2">
+      <h2>Map your columns</h2>
+      <p class="hint">Match each signal to a column from your file.</p>
+      <div class="placeholder-panel">Column mapping goes here — next step to build.</div>
+    </div>
+
+    <!-- STEP 3 (placeholder) -->
+    <div class="step-panel" id="panel-3">
+      <h2>Fine-tune Authority scoring</h2>
+      <div class="placeholder-panel">Role fine-tuning goes here — built later.</div>
+    </div>
+
+    <!-- STEP 4 (placeholder) -->
+    <div class="step-panel" id="panel-4">
+      <h2>Results</h2>
+      <div class="placeholder-panel">Scored results table goes here — built later.</div>
+    </div>
+
+  </div>
+
+  <script>
+    const STEPS = [
+      { key: 1, label: 'Upload' },
+      { key: 2, label: 'Map columns' },
+      { key: 3, label: 'Fine-tune role' },
+      { key: 4, label: 'Results' }
+    ];
+
+    let currentStep = 1;
+    let uploadedHeaders = [];
+    let uploadedRows = [];
+
+    function renderStepper() {
+      const stepperEl = document.getElementById('stepper');
+      stepperEl.innerHTML = '';
+      STEPS.forEach(function(step, i) {
+        const state = step.key < currentStep ? 'done' : (step.key === currentStep ? 'active' : 'upcoming');
+        const dotContent = state === 'done' ? '\u2713' : step.key;
+        const stepEl = document.createElement('div');
+        stepEl.className = 'step ' + state;
+        stepEl.innerHTML = '<div class="dot">' + dotContent + '</div><span class="label">' + step.label + '</span>';
+        stepperEl.appendChild(stepEl);
+
+        if (i < STEPS.length - 1) {
+          const line = document.createElement('div');
+          line.className = 'step-line' + (step.key < currentStep ? ' done' : '');
+          stepperEl.appendChild(line);
+        }
+      });
+    }
+
+    function goToStep(n) {
+      currentStep = n;
+      document.querySelectorAll('.step-panel').forEach(function(p) { p.classList.remove('active'); });
+      document.getElementById('panel-' + n).classList.add('active');
+      renderStepper();
+    }
+
+    function showError(msg) {
+      document.getElementById('error-box').innerHTML =
+        '<div class="error-box">' + msg + '</div>';
+    }
+
+    function clearError() {
+      document.getElementById('error-box').innerHTML = '';
+    }
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      clearError();
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        try {
+          const data = new Uint8Array(event.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
+          const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+
+          if (!rows.length) {
+            showError('This file looks empty. Please upload a file with at least one row of data.');
+            return;
+          }
+
+          uploadedRows = rows;
+          uploadedHeaders = Object.keys(rows[0]);
+
+          const pillList = document.getElementById('column-pill-list');
+          pillList.innerHTML = uploadedHeaders
+            .map(function(h) { return '<span class="column-pill">' + h + '</span>'; })
+            .join('');
+
+          document.getElementById('columns-found').style.display = 'block';
+
+        } catch (err) {
+          console.error(err);
+          showError("We couldn't read that file. Make sure it's a valid .xlsx, .xls or .csv file.");
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    });
+
+    document.getElementById('continue-btn').addEventListener('click', function() {
+      goToStep(2);
+    });
+
+    renderStepper();
+  </script>
+
+</body>
+</html>
